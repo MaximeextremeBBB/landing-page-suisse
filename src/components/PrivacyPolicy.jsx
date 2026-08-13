@@ -126,14 +126,12 @@ function PrivacyPolicy() {
           </Text>
 
           <ContactBox>
-            <strong>Responsable :</strong> Maxime Montagne
+            <strong>Responsable du traitement :</strong> Maxime Montagne – Entrepreneur individuel
             <br />
-            <strong>Entreprise :</strong> [NOM JURIDIQUE DE TON ENTREPRISE]
+            <strong>Activité :</strong> Cours particuliers de mathématiques et soutien scolaire
             <br />
-            <strong>SIRET :</strong> [TON NUMÉRO SIRET]
-            <br />
-            <strong>E-mail :</strong> [TON ADRESSE E-MAIL PROFESSIONNELLE]
-          </ContactBox>
+            <strong>E-mail :</strong> ton-email@email.com
+           </ContactBox>
         </Section>
 
         <Section>
