@@ -25,10 +25,9 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log("Nouveau prospect :", {
-      prenom,
-      email,
+    console.log("Nouvelle inscription au diagnostic", {
       classe,
+      success: true,
     });
 
     return res.status(200).json({
