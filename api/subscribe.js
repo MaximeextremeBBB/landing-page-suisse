@@ -7,9 +7,9 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { prenom, email, classe } = req.body;
+    const { prenom, email, niveau } = req.body;
 
-    if (!prenom || !email || !classe) {
+    if (!prenom || !email || !niveau) {
       return res.status(400).json({
         success: false,
         message: "Tous les champs sont obligatoires.",
@@ -26,7 +26,6 @@ export default async function handler(req, res) {
     }
 
     console.log("Nouvelle inscription au diagnostic", {
-      classe,
       success: true,
     });
 
