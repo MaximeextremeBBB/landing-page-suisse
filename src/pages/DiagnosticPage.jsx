@@ -274,10 +274,10 @@ function DiagnosticPage() {
   const form = e.target;
 
   const data = {
-    prenom: form.prenom.value,
-    email: form.email.value,
-    classe: form.classe.value,
-  };
+  prenom: form.prenom.value.trim(),
+  email: form.email.value.trim(),
+  niveau: form.niveau.value.trim(),
+};
 
   try {
     const response = await fetch("/api/subscribe", {
@@ -403,37 +403,18 @@ function DiagnosticPage() {
             </FormGroup>
 
             <FormGroup>
-              <label htmlFor="classe">
-                Dans quelle classe est votre enfant ?
-              </label>
+  <label htmlFor="niveau">
+    Quel est le niveau / la classe actuelle de votre enfant ?
+  </label>
 
-              <select
-                id="classe"
-                name="classe"
-                defaultValue=""
-                required
-              >
-                <option value="" disabled>
-                  Choisissez sa classe
-                </option>
-
-                <option value="3e">
-                  3e
-                </option>
-
-                <option value="seconde">
-                  Seconde
-                </option>
-
-                <option value="premiere">
-                  Première
-                </option>
-
-                <option value="terminale">
-                  Terminale
-                </option>
-              </select>
-            </FormGroup>
+  <input
+    id="niveau"
+    name="niveau"
+    type="text"
+    placeholder="Ex. 10S, 1re année de gymnase, Première spé maths..."
+    required
+  />
+</FormGroup>
 
             <SubmitButton type="submit">
               Recevoir le mini-diagnostic gratuitement →
