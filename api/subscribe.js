@@ -25,6 +25,48 @@ export default async function handler(req, res) {
       });
     }
 
+    const brevoResponse = await fetch(
+      "https://api.brevo.com/v3/contacts",
+      {
+        method: "POST",
+
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+        },
+
+        body: JSON.stringify({
+          email: email.trim(),
+
+          attributes: {
+            PRENOM: prenom.trim(),
+            NIVEAU: niveau.trim(),
+          },
+
+          listIds: [
+            Number(process.env.BREVO_LIST_ID),
+          ],
+
+          updateEnabled: true,
+        }),
+      }
+    );
+
+    if (!brevoResponse.ok) {
+      const brevoError = await brevoResponse.json();
+
+      console.error("Erreur Brevo :", {
+        status: brevoResponse.status,
+        message: brevoError.message,
+      });
+
+      return res.status(502).json({
+        success: false,
+        message: "Impossible d'enregistrer l'inscription.",
+      });
+    }
+
     console.log("Nouvelle inscription au diagnostic", {
       success: true,
     });
@@ -33,8 +75,9 @@ export default async function handler(req, res) {
       success: true,
       message: "Inscription reçue.",
     });
+
   } catch (error) {
-    console.error(error);
+    console.error("Erreur serveur :", error);
 
     return res.status(500).json({
       success: false,
