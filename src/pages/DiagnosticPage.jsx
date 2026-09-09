@@ -1,10 +1,15 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Page = styled.main`
   min-height: 100vh;
+
   background:
-    radial-gradient(circle at top, rgba(212, 175, 55, 0.10), transparent 35%),
+    radial-gradient(
+      circle at top,
+      rgba(212, 175, 55, 0.1),
+      transparent 35%
+    ),
     #f8fafc;
 
   display: flex;
@@ -30,6 +35,7 @@ const Brand = styled.div`
 const Card = styled.section`
   background: white;
   border-radius: 24px;
+
   padding: 55px 60px;
 
   border: 1px solid #e2e8f0;
@@ -153,14 +159,14 @@ const FormGroup = styled.div`
   flex-direction: column;
   gap: 8px;
 
-  label {
+  > label {
     color: #1a365d;
     font-weight: 700;
     font-size: 0.95rem;
   }
 
-  input,
-  select {
+  input[type="text"],
+  input[type="email"] {
     width: 100%;
 
     padding: 15px 16px;
@@ -179,13 +185,93 @@ const FormGroup = styled.div`
     transition: all 0.2s ease;
   }
 
-  input:focus,
-  select:focus {
+  input[type="text"]:focus,
+  input[type="email"]:focus {
     outline: none;
 
     border-color: #d4af37;
 
     box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+  }
+`;
+
+const CycleChoices = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+
+  @media (max-width: 650px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const CycleChoice = styled.label`
+  position: relative;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .choice-content {
+    height: 100%;
+    box-sizing: border-box;
+
+    padding: 20px;
+
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+
+    background: white;
+
+    transition: all 0.25s ease;
+  }
+
+  .choice-title {
+    display: block;
+
+    color: #1a365d;
+
+    font-size: 1.05rem;
+    font-weight: 800;
+
+    margin-bottom: 8px;
+  }
+
+  .choice-description {
+    display: block;
+
+    color: #64748b;
+
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  input:checked + .choice-content {
+    border-color: #d4af37;
+
+    background: rgba(212, 175, 55, 0.07);
+
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.18);
+  }
+
+  &:hover .choice-content {
+    border-color: #d4af37;
+    transform: translateY(-2px);
+  }
+`;
+
+const OtherChoice = styled(CycleChoice)`
+  grid-column: 1 / -1;
+
+  .choice-content {
+    text-align: center;
+  }
+
+  @media (max-width: 650px) {
+    grid-column: auto;
   }
 `;
 
@@ -268,44 +354,58 @@ const SmallLink = styled(Link)`
 `;
 
 function DiagnosticPage() {
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const form = e.target;
+    const form = e.target;
 
-  const data = {
-  prenom: form.prenom.value.trim(),
-  email: form.email.value.trim(),
-  niveau: form.niveau.value.trim(),
-};
+    const data = {
+      prenom: form.prenom.value.trim(),
+      email: form.email.value.trim(),
+      cycle: form.cycle.value,
+    };
 
-  try {
-    const response = await fetch("/api/subscribe", {
-      method: "POST",
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
 
-      headers: {
-        "Content-Type": "application/json",
-      },
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-      body: JSON.stringify(data),
-    });
+        body: JSON.stringify(data),
+      });
 
-    const result = await response.json();
+      const result = await response.json();
 
-    if (!response.ok) {
-      alert(result.message || "Une erreur est survenue.");
-      return;
+      if (!response.ok) {
+        alert(
+          result.message ||
+            "Une erreur est survenue."
+        );
+
+        return;
+      }
+
+      /*
+        Le contact est maintenant enregistré dans Brevo.
+
+        On envoie immédiatement le parent vers
+        la bibliothèque des diagnostics.
+      */
+
+      navigate("/fiches-diagnostic");
+
+    } catch (error) {
+      console.error("Erreur :", error);
+
+      alert(
+        "Impossible de contacter le serveur."
+      );
     }
-
-    alert("✅ Inscription reçue !");
-
-    console.log("Réponse API :", result);
-  } catch (error) {
-    console.error("Erreur :", error);
-
-    alert("Impossible de contacter le serveur.");
-  }
-};
+  };
 
   return (
     <Page>
@@ -326,16 +426,17 @@ function DiagnosticPage() {
           </Title>
 
           <Subtitle>
-            Faites le point sur le niveau de votre enfant
+            Faites le point sur les acquis de votre enfant
             et identifiez les principales notions à revoir.
           </Subtitle>
 
           <Intro>
-            En quelques minutes, ce mini-diagnostic permet
-            d’identifier les acquis de votre enfant,
-            mais aussi les notions qui pourraient freiner
-            sa progression en mathématiques.
+            Accédez gratuitement à mes fiches de diagnostic
+            pour repérer les acquis de votre enfant et les
+            notions qui pourraient freiner sa progression
+            en mathématiques.
           </Intro>
+
 
           <Benefits>
 
@@ -343,38 +444,56 @@ function DiagnosticPage() {
               <span>🔎</span>
 
               <div>
-                <strong>Repérer les difficultés</strong>
+                <strong>
+                  Repérer les difficultés
+                </strong>
+
                 <br />
-                Identifiez les notions sur lesquelles votre enfant
-                rencontre encore des blocages.
+
+                Identifiez les notions sur lesquelles votre
+                enfant rencontre encore des blocages.
               </div>
             </Benefit>
+
 
             <Benefit>
               <span>🎯</span>
 
               <div>
-                <strong>Savoir quoi retravailler en priorité</strong>
+                <strong>
+                  Savoir quoi retravailler en priorité
+                </strong>
+
                 <br />
-                Évitez de reprendre tout le programme au hasard.
+
+                Évitez de reprendre tout le programme
+                au hasard.
               </div>
             </Benefit>
+
 
             <Benefit>
               <span>📈</span>
 
               <div>
-                <strong>Faire le point gratuitement</strong>
+                <strong>
+                  Faire le point gratuitement
+                </strong>
+
                 <br />
-                Obtenez une première vision claire de son niveau actuel.
+
+                Obtenez une première vision des acquis
+                et des notions à consolider.
               </div>
             </Benefit>
 
           </Benefits>
 
+
           <Form onSubmit={handleSubmit}>
 
             <FormGroup>
+
               <label htmlFor="prenom">
                 Votre prénom
               </label>
@@ -386,9 +505,12 @@ function DiagnosticPage() {
                 placeholder="Ex. Sophie"
                 required
               />
+
             </FormGroup>
 
+
             <FormGroup>
+
               <label htmlFor="email">
                 Votre adresse email
               </label>
@@ -400,36 +522,123 @@ function DiagnosticPage() {
                 placeholder="Ex. sophie@email.com"
                 required
               />
+
             </FormGroup>
 
-            <FormGroup>
-  <label htmlFor="niveau">
-    Quel est le niveau / la classe actuelle de votre enfant ?
-  </label>
 
-  <input
-    id="niveau"
-    name="niveau"
-    type="text"
-    placeholder="Ex. 10S, 1re année de gymnase, Première spé maths..."
-    required
-  />
-</FormGroup>
+            <FormGroup>
+
+              <label>
+                Quel cycle correspond actuellement
+                à votre enfant ?
+              </label>
+
+
+              <CycleChoices>
+
+
+                <CycleChoice>
+
+                  <input
+                    type="radio"
+                    name="cycle"
+                    value="SECONDAIRE_I"
+                    required
+                  />
+
+                  <div className="choice-content">
+
+                    <span className="choice-title">
+                      📘 Secondaire I
+                    </span>
+
+                    <span className="choice-description">
+                      Scolarité obligatoire et consolidation
+                      des fondamentaux.
+                    </span>
+
+                  </div>
+
+                </CycleChoice>
+
+
+                <CycleChoice>
+
+                  <input
+                    type="radio"
+                    name="cycle"
+                    value="SECONDAIRE_II"
+                    required
+                  />
+
+                  <div className="choice-content">
+
+                    <span className="choice-title">
+                      🎓 Secondaire II
+                    </span>
+
+                    <span className="choice-description">
+                      Gymnase, collège et préparation
+                      progressive à la maturité.
+                    </span>
+
+                  </div>
+
+                </CycleChoice>
+
+
+                <OtherChoice>
+
+                  <input
+                    type="radio"
+                    name="cycle"
+                    value="AUTRE"
+                    required
+                  />
+
+                  <div className="choice-content">
+
+                    <span className="choice-title">
+                      ❓ Autre / Je ne sais pas
+                    </span>
+
+                    <span className="choice-description">
+                      Vous pourrez consulter toutes les fiches
+                      disponibles à l'étape suivante.
+                    </span>
+
+                  </div>
+
+                </OtherChoice>
+
+
+              </CycleChoices>
+
+            </FormGroup>
+
 
             <SubmitButton type="submit">
-              Recevoir le mini-diagnostic gratuitement →
+              Accéder gratuitement aux diagnostics →
             </SubmitButton>
 
           </Form>
 
+
           <Reassurance>
+
             🔒 Vos informations restent confidentielles.
+
             <br />
-            Le mini-diagnostic est un outil de repérage pédagogique
-            et ne remplace pas une évaluation complète de l’élève.
+
+            Les mini-diagnostics sont des outils de repérage
+            pédagogique et ne remplacent pas une évaluation
+            complète de l’élève.
+
           </Reassurance>
 
+
           <FooterLinks>
+
             <SmallLink to="/">
               ← Retour au site
             </SmallLink>
@@ -437,6 +646,7 @@ function DiagnosticPage() {
             <SmallLink to="/politique-de-confidentialite">
               Politique de confidentialité
             </SmallLink>
+
           </FooterLinks>
 
         </Card>
