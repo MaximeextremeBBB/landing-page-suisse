@@ -278,14 +278,14 @@ function Hero() {
         </MicroCopy>
       </CTAContainer>
 
-      <VideoContainer>
+      {/* <VideoContainer>
         <video
           src="/Presentation-Maxime.mp4"
           controls
           playsInline
           poster="/Photo-Pour-Video.png"
         />
-      </VideoContainer>
+      </VideoContainer> */}
 
     </HeroSection>
   );
