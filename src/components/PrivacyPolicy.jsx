@@ -130,7 +130,7 @@ function PrivacyPolicy() {
             <br />
             <strong>Activité :</strong> Cours particuliers de mathématiques et soutien scolaire
             <br />
-            <strong>E-mail :</strong> ton-email@email.com
+            <strong>E-mail :</strong> maxime.guiraud.1990@gmail.com
            </ContactBox>
         </Section>
 
@@ -362,7 +362,7 @@ function PrivacyPolicy() {
           </Text>
 
           <ContactBox>
-            <strong>[TON ADRESSE E-MAIL PROFESSIONNELLE]</strong>
+            <strong>maxime.guiraud.1990@gmail.com</strong>
           </ContactBox>
         </Section>
 
