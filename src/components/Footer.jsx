@@ -100,7 +100,7 @@ function Footer() {
         Expliquez-moi sa situation, son niveau et les difficultés qu'il rencontre.
         Nous verrons ensemble quel accompagnement serait le plus adapté.
       </SubText>
-
+{/* 
       <WhatsAppButton
         href="https://wa.me/33614949242?text=Bonjour%20Maxime%2C%20je%20souhaiterais%20faire%20le%20point%20sur%20les%20besoins%20de%20mon%20enfant%20en%20math%C3%A9matiques."
         target="_blank"
@@ -131,7 +131,7 @@ function Footer() {
             Échange direct et sans engagement
           </span>
         </div>
-      </WhatsAppButton>
+      </WhatsAppButton> */}
 
       {/* Liens légaux discrets */}
       <LegalLinks aria-label="Informations légales">

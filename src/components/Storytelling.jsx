@@ -51,7 +51,7 @@ function Storytelling() {
       <CaseStudyContainer>
         <Header>
           <h2>Étude de cas : La méthode en action</h2>
-          <p>De l'angoisse des maths à la mention Très Bien (L'histoire de Thomas*)</p>
+          <p>De difficultés en mathématiques à la réussite de sa maturité (L'histoire de Thomas*)</p>
         </Header>
         
         <Grid>
