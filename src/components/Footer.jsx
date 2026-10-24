@@ -141,7 +141,7 @@ function Footer() {
 
         <span aria-hidden="true">•</span>
 
-        <a href="/politique-confidentialite">
+        <a href="/politique-de-confidentialite">
           Politique de confidentialité
         </a>
       </LegalLinks>
