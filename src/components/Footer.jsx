@@ -1,3 +1,4 @@
+
 import styled from 'styled-components';
 
 const FinalSection = styled.section`
@@ -26,9 +27,8 @@ const SubText = styled.p`
 `;
 
 const WhatsAppButton = styled.a`
-  /* Dégradé Or Premium */
   background: linear-gradient(135deg, #d4af37 0%, #aa7700 100%);
-  color: #020617; /* Bleu très sombre, presque noir, pour un contraste chic */
+  color: #020617;
   padding: 20px 40px;
   border-radius: 50px;
   font-weight: 800;
@@ -38,22 +38,53 @@ const WhatsAppButton = styled.a`
   box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
   margin-top: 10px;
   transition: all 0.3s ease;
-  border: 1px solid #fef08a; 
+  border: 1px solid #fef08a;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 
-  &:hover { 
+  &:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 25px rgba(212, 175, 55, 0.4);
-    /* Inversion du dégradé au survol pour l'effet dynamique */
     background: linear-gradient(135deg, #aa7700 0%, #d4af37 100%);
   }
 
   @media (max-width: 768px) {
     padding: 15px 30px;
     font-size: 1.05rem;
+  }
+`;
+
+// NOUVEAU : liens légaux très discrets
+const LegalLinks = styled.nav`
+  margin-top: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+
+  a {
+    font-size: 11px;
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #d4af37;
+      outline-offset: 4px;
+    }
+  }
+
+  span {
+    font-size: 11px;
+    color: #64748b;
   }
 `;
 
@@ -101,6 +132,19 @@ function Footer() {
           </span>
         </div>
       </WhatsAppButton>
+
+      {/* Liens légaux discrets */}
+      <LegalLinks aria-label="Informations légales">
+        <a href="/mentions-legales">
+          Mentions légales
+        </a>
+
+        <span aria-hidden="true">•</span>
+
+        <a href="/politique-confidentialite">
+          Politique de confidentialité
+        </a>
+      </LegalLinks>
 
     </FinalSection>
   );

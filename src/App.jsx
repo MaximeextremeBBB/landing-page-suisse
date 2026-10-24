@@ -6,6 +6,17 @@ import DiagnosticPage from "./pages/DiagnosticPage.jsx";
 import FichesDiagnosticPage from "./pages/FichesDiagnosticPage.jsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.jsx";
 
+
+
+
+
+import LegalNoticePage from "./pages/LegalNoticePage";
+
+
+
+
+
+
 function App() {
   return (
     <>
@@ -30,6 +41,10 @@ function App() {
           path="/politique-de-confidentialite"
           element={<PrivacyPolicyPage />}
         />
+        <Route
+  path="/mentions-legales"
+  element={<LegalNoticePage />}
+/>
 
       </Routes>
 
